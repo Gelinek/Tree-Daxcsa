@@ -167,22 +167,48 @@ button:hover {
 
 /* Para dispositivos móviles */
 @media screen and (max-width: 768px) {
-  body > div {
+  .main-container {
+    display: flex;
     flex-direction: column;
+    gap: 20px;
     align-items: center;
   }
 
-  #tree-container.tree {
-    min-width: 100%;
-    max-width: 100%;
+  .sidebar {
+    order: -1; /* sube los detalles y el input */
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
   }
 
-  #jsonFileInput {
+  #tree-container.tree,
+  .tree-wrapper {
+    width: 100% !important;
+    overflow-x: auto;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .node {
+    min-width: 220px;
+    font-size: 15px;
+  }
+
+  .details {
+    max-width: 100%;
     width: 100%;
   }
 
-  #details {
-    max-width: 100%;
-    margin-top: 20px;
+  .child-box {
+    min-width: 90% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .grupos-nietos {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
 }
+

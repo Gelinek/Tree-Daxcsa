@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Árbol Genealógico Daxcsa</title>
-  <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<title>Árbol Genealógico Daxcsa</title>
+	<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h2>Árbol Genealógico - Daxcsa</h2>
-  <div style="display: flex; justify-content: space-around;">
-    <div style="justify-content: flex-start;">
-      <label for="jsonFileInput" class="custom-file-label">📁 Insertar archivo JSON</label>
-      <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+	<h2>Árbol Genealógico - Daxcsa</h2>
+	<div class="main-container">
+		<div class="sidebar">
+			<label for="jsonFileInput" class="custom-file-label">📁 Insertar archivo JSON</label>
+			<input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+			<div id="details" class="details"></div>
+		</div>
+		<div id="tree-container" class="tree"></div>
+	</div>
 
-      <div id="details" class="details"></div>
-    </div>
-    <div>
-      <div id="tree-container" class="tree"></div>
-    </div>
-  </div>
 
-  <script src="app.js"></script>
+	<script src="app.js"></script>
 </body>
+
 </html>

@@ -45,15 +45,16 @@ function showDetails(person) {
 }
 
 function renderTree(node) {
+//   const containerWrapper = document.getElementById('tree-container').parentElement;
+//   containerWrapper.style.marginLeft = '0px'; // restablecer margen a cero
+
   const container = document.getElementById('tree-container');
-  container.style.display = 'flex';
-  container.style.flexDirection = 'column';
-  container.style.alignItems = 'center';
-  container.style.overflow = 'visible';
+  container.className = 'tree-wrapper';
   container.innerHTML = '';
 
   const level0 = document.createElement('div');
   level0.className = 'level';
+  // nivel raíz sin margen individual; usa clases CSS // empuja ligeramente a la derecha
   level0.appendChild(createNode(node, true));
   container.appendChild(level0);
 
@@ -61,31 +62,25 @@ function renderTree(node) {
   if (children.length > 0) {
     const level1 = document.createElement('div');
     level1.className = 'level1';
-    level1.style.gap = '100px';
+    level1.classList.add('level1-responsive');
 
     children.forEach((child, index) => {
       const childWrapper = document.createElement('div');
       childWrapper.className = 'child-wrapper';
-      childWrapper.style.alignItems = child.binary_placement === 'Left' ? 'flex-end' : 'flex-start';
+      childWrapper.classList.add(child.binary_placement === 'Left' ? 'align-left' : 'align-right');
       if (children.length === 1) {
-        childWrapper.style.marginLeft = child.binary_placement === 'Left' ? '-120px' : '120px';
+        childWrapper.style.marginLeft = child.binary_placement === 'Left' ? '-100px' : '100px';
       }
-      childWrapper.style.minWidth = '280px';
-      childWrapper.style.maxWidth = '300px';
+      childWrapper.classList.add('child-box');
 
       const childNode = createNode(child);
       childWrapper.appendChild(childNode);
 
-      
-
       const grandChildren = child.children || [];
       if (grandChildren.length > 0) {
         const grupoNietos = document.createElement('div');
-grupoNietos.className = 'grupos-nietos';
-grupoNietos.style.display = 'flex';
-grupoNietos.style.justifyContent = 'center';
-grupoNietos.style.gap = '80px';
-grupoNietos.style.minWidth = '100%';
+        grupoNietos.className = 'grupos-nietos';
+        grupoNietos.classList.add('nietos-box');
 
         const leftGroup = document.createElement('div');
         leftGroup.className = 'grupo left';
@@ -105,10 +100,7 @@ grupoNietos.style.minWidth = '100%';
 
         grupoNietos.appendChild(leftGroup);
         grupoNietos.appendChild(rightGroup);
-        grupoNietos.style.marginTop = '30px';
-      
-
-      childWrapper.appendChild(grupoNietos);
+        childWrapper.appendChild(grupoNietos);
       }
 
       level1.appendChild(childWrapper);
