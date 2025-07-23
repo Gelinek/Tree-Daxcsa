@@ -4,17 +4,17 @@ let parentStack = [];
 function createNode(person, isRoot = false) {
   const node = document.createElement('div');
   node.className = 'node';
-  node.innerHTML = `<strong>${person.full_name}</strong><br><small>${person.username}</small>`;
+  node.innerHTML = `<strong>${person.full_name}</strong><br><small>${person.username || ''}</small>`;
 
   node.onclick = (e) => {
     e.stopPropagation();
-    showDetails(person);
 
-    if (person.children && person.children.length > 0) {
+    if (person.children && person.children.length > 0 && !isRoot) {
       parentStack.push(currentNode);
       currentNode = person;
       renderTree(person);
     }
+    showDetails(person);
   };
 
   return node;
@@ -22,6 +22,8 @@ function createNode(person, isRoot = false) {
 
 function showDetails(person) {
   const el = document.getElementById('details');
+  el.style.display = 'block';
+
   el.innerHTML = `
     <h3>Details</h3>
     <p><strong>Name:</strong> ${person.full_name}</p>
@@ -37,46 +39,82 @@ function showDetails(person) {
     btnBack.onclick = () => {
       currentNode = parentStack.pop();
       renderTree(currentNode);
-      showDetails(currentNode); // Actualizar detalles al regresar
+      showDetails(currentNode);
     };
   }
 }
 
-
 function renderTree(node) {
   const container = document.getElementById('tree-container');
+  container.style.display = 'flex';
+  container.style.flexDirection = 'column';
+  container.style.alignItems = 'center';
+  container.style.overflow = 'visible';
   container.innerHTML = '';
 
-  // Nivel 0: nodo raíz actual
   const level0 = document.createElement('div');
   level0.className = 'level';
   level0.appendChild(createNode(node, true));
   container.appendChild(level0);
 
-  // Nivel 1: hijos del nodo actual
   const children = node.children || [];
   if (children.length > 0) {
     const level1 = document.createElement('div');
-    level1.className = 'level';
+    level1.className = 'level1';
+    level1.style.gap = '100px';
 
-    children.forEach(child => {
-      level1.appendChild(createNode(child));
+    children.forEach((child, index) => {
+      const childWrapper = document.createElement('div');
+      childWrapper.className = 'child-wrapper';
+      childWrapper.style.alignItems = child.binary_placement === 'Left' ? 'flex-end' : 'flex-start';
+      if (children.length === 1) {
+        childWrapper.style.marginLeft = child.binary_placement === 'Left' ? '-120px' : '120px';
+      }
+      childWrapper.style.minWidth = '280px';
+      childWrapper.style.maxWidth = '300px';
+
+      const childNode = createNode(child);
+      childWrapper.appendChild(childNode);
+
+      
+
+      const grandChildren = child.children || [];
+      if (grandChildren.length > 0) {
+        const grupoNietos = document.createElement('div');
+grupoNietos.className = 'grupos-nietos';
+grupoNietos.style.display = 'flex';
+grupoNietos.style.justifyContent = 'center';
+grupoNietos.style.gap = '80px';
+grupoNietos.style.minWidth = '100%';
+
+        const leftGroup = document.createElement('div');
+        leftGroup.className = 'grupo left';
+
+        const rightGroup = document.createElement('div');
+        rightGroup.className = 'grupo right';
+
+        grandChildren.forEach(gc => {
+          const gcNode = createNode(gc);
+          gcNode.classList.add(gc.binary_placement?.toLowerCase() || '');
+          if (gc.binary_placement === 'Left') {
+            leftGroup.appendChild(gcNode);
+          } else {
+            rightGroup.appendChild(gcNode);
+          }
+        });
+
+        grupoNietos.appendChild(leftGroup);
+        grupoNietos.appendChild(rightGroup);
+        grupoNietos.style.marginTop = '30px';
+      
+
+      childWrapper.appendChild(grupoNietos);
+      }
+
+      level1.appendChild(childWrapper);
     });
 
     container.appendChild(level1);
-
-    // Nivel 2: nietos (hijos de cada hijo)
-    const level2 = document.createElement('div');
-    level2.className = 'level';
-
-    children.forEach(child => {
-      const grandChildren = child.children || [];
-      grandChildren.forEach(grandChild => {
-        level2.appendChild(createNode(grandChild));
-      });
-    });
-
-    container.appendChild(level2);
   }
 }
 
@@ -94,7 +132,6 @@ document.getElementById('jsonFileInput').addEventListener('change', function (ev
       renderTree(currentNode);
       document.getElementById('details').innerHTML = '';
       document.getElementById('jsonFileInput').value = '';
-
     } catch (err) {
       alert("Error al cargar el JSON: " + err.message);
     }

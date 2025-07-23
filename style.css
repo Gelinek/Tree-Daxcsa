@@ -1,10 +1,80 @@
-body {
-  font-family: sans-serif;
-  overflow-x: auto;
-  padding: 20px;
-}
+/* Centrar título */
 h2 {
   text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+}
+
+/* Contenedor principal flex */
+body > div {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+}
+
+/* Estilo input file */
+#jsonFileInput {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1.5px solid #2980b9;
+  cursor: pointer;
+  background-color: #ecf0f1;
+  transition: background-color 0.3s ease;
+  width: 200px;
+  box-sizing: border-box;
+}
+
+#jsonFileInput:hover {
+  background-color: #d6eaf8;
+}
+.custom-file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4682B4;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.custom-file-label:hover {
+  background-color: #315f86;
+}
+
+
+/* Contenedor detalles */
+#details {
+  display: none;
+  margin-top: 15px;
+  max-width: 350px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-family: Arial, sans-serif;
+  color: #34495e;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+}
+
+/* Contenedor árbol */
+#tree-container.tree {
+  display: none;
+  flex-grow: 1;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1.5px solid #2980b9;
+  box-shadow: 0 4px 12px rgb(41 128 185 / 0.15);
+  overflow-x: auto;
+  min-width: 1200px; /* Aumenta el ancho mínimo */
+  max-width: 1600px; /* Define un máximo si es necesario */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
@@ -40,6 +110,42 @@ h2 {
   max-width: 500px;
 }
 
+
+.level1 {
+  display: flex;
+  justify-content: space-between;
+  gap: 100px;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+
+.level2 {
+  display: flex;
+  justify-content: center;
+  gap: 20%px;
+  flex-wrap: wrap;
+}
+
+.grupos-nietos{
+  display: flex;
+  /* gap: 400px */
+}
+.grupo{
+  display: flex;
+}
+.grupos-0{
+  display: flex !important;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.grupos-1{
+  display: flex !important;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
 button {
   background-color: #87add9;
   color: white;
@@ -56,4 +162,27 @@ button {
 button:hover {
   background-color: #357ABD;
   box-shadow: 0 6px 12px rgba(1, 29, 57, 0.6);
+}
+
+
+/* Para dispositivos móviles */
+@media screen and (max-width: 768px) {
+  body > div {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #tree-container.tree {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  #jsonFileInput {
+    width: 100%;
+  }
+
+  #details {
+    max-width: 100%;
+    margin-top: 20px;
+  }
 }
